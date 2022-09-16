@@ -110,17 +110,6 @@ void draw() {
     game.getSnake().update();
 
     game.addReplay();
-
-    if (hasEatenApple()) {
-      snake.getXList().set(snake.getXList().size(), appleX);
-      snake.getYList().set(snake.getYList().size(), appleY);
-      createAppleCoords();
-      score += 1;
-    } else {
-      fill(210, 0, 0);
-      circle(appleX, appleY, FIELD_SIZE / 2);
-    }
-
   }
 }
 */

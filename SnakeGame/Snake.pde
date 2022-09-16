@@ -4,6 +4,8 @@ class Snake {
   private String direction = "RIGHT";
   private String newDirection = "RIGHT";
 
+  private Direction dir; // Gjort klar til ENUM
+
   public Snake() {
     xList = new IntList();
     yList = new IntList();
@@ -31,6 +33,10 @@ class Snake {
 
   void setDirection(String direction) {
     this.direction = direction;
+  }
+  
+  void updateCoords(Direction direction) {
+    
   }
 
 

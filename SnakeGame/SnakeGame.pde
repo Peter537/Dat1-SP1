@@ -3,7 +3,9 @@
 //    for at skulle restart hvor den stadig gemmer replay etc.
 //  - Bruge flere 'Tabs' som klasser i Processing, så det i flere filer
 //  - I replay system, tilføje så man kan gøre så det automatisk kører frem/tilbage ved X frames
-//  - 
+//  - Idk om jeg laver Direction ENUM eller om jeg bruger 'key' i mousePressed, har gjort klar til ENUM'et
+//    eller bruge HashMap<int(key), String> som parser en key til RIGHT, LEFT, UP el. DOWN
+//  - Gjort klar til at kunne bruge Game objectet til at lave flere games
 
 
 // String[] direction? hvor [0] = currentDirection & [1] = newDirection
@@ -18,23 +20,23 @@ boolean hasEatenApple = true;
 boolean gameEnded = false;
 
 // fjerne hardcoded størrelse på felterne, og lave en variabel
-int FIELDS;// = 15;
-int FIELD_SIZE;// = 40;
+int FIELDS = 15;
+int FIELD_SIZE = 40;
 
-ArrayList<Replay> replays;
+ArrayList<Replay> replays = new ArrayList<Replay>();
 int currentReplayIndex = 0;
 
-String gameState;// = "Menu";
+String gameState = "Menu";
 
 Snake snake;
 
 void setup(){
-  replays = new ArrayList<Replay>();
-  FIELDS = 15;
-  FIELD_SIZE = 40;
+  //replays = new ArrayList<Replay>();
+  //FIELDS = 15;
+  //FIELD_SIZE = 40;
+  //gameState = "Menu";
   size(600, 640);
   background(210);
-  gameState = "Menu";
   setupGame(gameState);
   frameRate(120);
   snake = new Snake();
@@ -216,9 +218,11 @@ void showReplay(int index) {
   fill(0, 180, 0);
   rect(20 + 80, FIELDS * FIELD_SIZE + 3, 60, 34);
   Replay r = replays.get(index);
-  fill(210, 0, 0);
-  circle(r.getAppleX(), r.getAppleY(), FIELD_SIZE / 2);
-  drawReplaySnake(r);
+  r.drawMap();
+  //fill(210, 0, 0);
+  //circle(r.getAppleX(), r.getAppleY(), FIELD_SIZE / 2);
+  //r.drawSnake();
+  //drawReplaySnake(r);
 }
 
 void mousePressed(){
@@ -267,6 +271,7 @@ boolean isInRange(float begin, float end, float value){
   return (begin <= value && value <= end);
 }
 
+/*
 void drawReplaySnake(Replay r) {
   fill(0, 180, 0);
   for (int i = 0; i < r.getXList().size(); i++){
@@ -274,6 +279,7 @@ void drawReplaySnake(Replay r) {
   }
   drawSnakeHead(r.getXList().get(0), r.getYList().get(0));
 }
+*/
 
 /*
 void drawSnake(){
@@ -285,6 +291,7 @@ void drawSnake(){
 }
 */
 
+/*
 // X og Y skal være midten
 void drawSnakeHead(int x, int y){
   fill(0);
@@ -294,3 +301,4 @@ void drawSnakeHead(int x, int y){
   ellipse(x, y + 10, 10, 3);
   strokeWeight(1);
 }
+*/

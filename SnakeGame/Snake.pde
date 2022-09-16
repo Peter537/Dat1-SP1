@@ -35,7 +35,8 @@ class Snake {
     this.direction = direction;
   }
   
-  void updateCoords(Direction direction) {
+  // Metoden vil indeholde alt om at opdatere X og Y coords
+  void update() {
     
   }
 

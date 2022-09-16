@@ -6,6 +6,7 @@
 //  - Idk om jeg laver Direction ENUM eller om jeg bruger 'key' i mousePressed, har gjort klar til ENUM'et
 //    eller bruge HashMap<int(key), String> som parser en key til RIGHT, LEFT, UP el. DOWN
 //  - Gjort klar til at kunne bruge Game objectet til at lave flere games
+//  - GameState ENUM? GameState.MENU, GAME, END, REPLAY?
 
 
 // String[] direction? hvor [0] = currentDirection & [1] = newDirection
@@ -35,10 +36,10 @@ void setup(){
   //FIELDS = 15;
   //FIELD_SIZE = 40;
   //gameState = "Menu";
-  size(600, 640);
+  size(600, 640); // Skal forblive
   background(210);
   setupGame(gameState);
-  frameRate(120);
+  frameRate(120);  // Skal forblive
   snake = new Snake();
 }
 
@@ -82,6 +83,48 @@ void setupGame(String state){
       break;
   }
 }
+
+
+/*
+// Når Game klassen skal i brug
+void draw() {
+  if (!game.getGameState().equals("Game")) return
+  if (game.hasGameEnded()) {
+    game.setGameState("End");
+    game.setupGame(game.getGameState());
+    return;
+  }
+  frames++;
+  if (frames >= frameRate / 5) {
+    frames = 0;
+    // Evt. gøre det her til en metode i Game klasse?
+    if (game.getSnake().getNewDirection() != game.getSnake().getDirection()) {
+      game.getSnake().setDirection(game.getSnake().getNewDirection());
+    }
+    
+    if (game.hasHitBorder() || game.hasHitSnake()) {
+      gameEnded = true;
+    }
+    
+    game.drawMap();
+    game.getSnake().update();
+
+    game.addReplay();
+
+    if (hasEatenApple()) {
+      snake.getXList().set(snake.getXList().size(), appleX);
+      snake.getYList().set(snake.getYList().size(), appleY);
+      createAppleCoords();
+      score += 1;
+    } else {
+      fill(210, 0, 0);
+      circle(appleX, appleY, FIELD_SIZE / 2);
+    }
+
+  }
+}
+*/
+
 
 void draw() {  
   if (gameState == "Menu" || gameState == "End" || gameState == "Replay") return;

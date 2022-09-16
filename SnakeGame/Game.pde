@@ -1,9 +1,9 @@
 class Game {
- 
+
   int frames = 0;
   int score = 0;
-  IntList snakeXList = new IntList();
-  IntList snakeYList = new IntList();
+  //IntList snakeXList = new IntList();
+  //IntList snakeYList = new IntList();
   int appleX = -1, appleY = -1;
   boolean hasEatenApple = true;
   boolean gameEnded = false;
@@ -18,27 +18,30 @@ class Game {
   String gameState = "Menu";
   
   Snake snake;
-
   
   public Game() {
     //replays = new ArrayList<Replay>();
     //FIELDS = 15;
     //FIELD_SIZE = 40;
     //gameState = "Menu";
-    size(600, 640);
     background(210);
     setupGame(gameState);
-    frameRate(120);
     snake = new Snake();
   }
-  
-  
-  
-  
+
+
+
   void drawMap() {
-    
+    background(210);
+    createLayer();
+    if (hasEatenApple()) {
+      createApple();
+    } else {
+      drawApple();
+    }
+    snake.drawSnake();
+    drawScore();
   }
-  
 
 
 
@@ -85,13 +88,42 @@ class Game {
 
 
 
+  void addReplay() {
+    replays.add(new Replay(snake.getXList().copy(), snake.getYList().copy(), appleX, appleY));
+  }
 
+  boolean hasHitBorder(){
+    return snake.getXList().get(0) < 0 || snake.getXList().get(0) > (FIELDS * FIELD_SIZE) || snake.getYList().get(0) < 0 || snake.getYList().get(0) > (FIELDS * FIELD_SIZE);
+  }
+  
+  boolean hasHitSnake() {
+    return false;
+    /*
+      // Skal lige have fikset det her
+      println("New Run");
+      for (int x = 2; x < snakeXList.size() - 1; x++) {
+        for (int y = 2; y < snakeXList.size() - 1; y++) {
+          println("x:" + x + ": " + snakeXList.get(x) + " = " + snakeXList.get(0));
+          println("y:" + y + ": " + snakeYList.get(y) + " = " + snakeYList.get(0));
+          if (snakeXList.get(0) == snakeXList.get(x) && snakeYList.get(0) == snakeYList.get(y)) {
+            println("true");
+            //gameEnded = true;
+            //return;
+          }
+        }
+      }
+    }*/
+  }
 
   boolean hasEatenApple(){
     return (appleX == snake.getXList().get(0) && appleY == snake.getYList().get(0));
   }
   
-  void createAppleCoords(){
+  void createApple() {
+    snake.getXList().set(snake.getXList().size(), appleX);
+    snake.getYList().set(snake.getYList().size(), appleY);
+    score += 1;
+
     // lave noget som tjekker om det er inde i Snaken
     appleX = ((int) random(FIELDS)) * FIELD_SIZE + 20;
     appleY = ((int) random(FIELDS)) * FIELD_SIZE + 20;
@@ -109,7 +141,16 @@ class Game {
     rect(0, height - FIELD_SIZE, width, height);
   }
 
-
+  void drawApple(){
+    fill(210, 0, 0);
+    circle(appleX, appleY, FIELD_SIZE / 2);
+  }
+  
+  void drawScore(){
+    fill(127, 0, 127);
+    textSize(30);
+    text("Score: " + score, width / 2 - FIELD_SIZE, FIELDS * FIELD_SIZE + FIELD_SIZE * 0.75);
+  }
 
   void showReplay(int index) {
     //println("Current Replay:" + index);
@@ -127,6 +168,13 @@ class Game {
     //drawReplaySnake(r);
   }
 
+  Snake getSnake() {
+    return snake;
+  }
+  
+  ArrayList<Replay> getReplays() {
+    return replays;
+  }
 
   boolean isInsideRect(float rcx, float rcy, float w, float h, float px, float py){
     return isInRange(rcx, rcx + w, px) && isInRange(rcy, rcy + h, py);

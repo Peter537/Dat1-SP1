@@ -1,3 +1,3 @@
 # Dat1-SP1
 
-Peter
+Snake Game by Peter

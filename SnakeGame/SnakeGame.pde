@@ -1,12 +1,15 @@
 // TODO:
 //  - Game klasse som har det hele i sig, så man kan have flere games i stedet
 //    for at skulle restart hvor den stadig gemmer replay etc.
-//  - Bruge flere 'Tabs' som klasser i Processing, så det i flere filer
 //  - I replay system, tilføje så man kan gøre så det automatisk kører frem/tilbage ved X frames
 //  - Idk om jeg laver Direction ENUM eller om jeg bruger 'key' i mousePressed, har gjort klar til ENUM'et
 //    eller bruge HashMap<int(key), String> som parser en key til RIGHT, LEFT, UP el. DOWN
 //  - Gjort klar til at kunne bruge Game objectet til at lave flere games
-//  - GameState ENUM? GameState.MENU, GAME, END, REPLAY?
+//  - GameState ENUM? GameState.MENU, GAME, END, REPLAY? har lavet den i hvert fald
+
+// KENDTE FEJL
+//  - I replay er den 1 mindre end den skal være
+//  - I replay kan man gå så langt som man vil, stopper ikke når snaken var død (skal lige debugges)
 
 
 // String[] direction? hvor [0] = currentDirection & [1] = newDirection
@@ -34,7 +37,7 @@ String gameState = "Menu";
 Snake snake;
 */
 
-
+ArrayList<Game> previousGames = new ArrayList<Game>();
 Game game;
 
 
@@ -269,6 +272,7 @@ void mousePressed(){
       game.gameEnded = false; // ændre det her til metode
       game.setGameState("Replay");
       game.setupGame(game.getGameState());
+      previousGames.add(game);
     }
   } else if (game.getGameState().equals("Replay")) {
     //println("index: " + currentReplayIndex);

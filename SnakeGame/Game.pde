@@ -57,7 +57,7 @@ class Game {
       case "Game":
         background(210);
         createLayer();
-        createAppleCoords();
+        createApple();
         fill(0, 180, 0);
         snake.getXList().set(0, FIELD_SIZE / 2);
         snake.getYList().set(0, FIELD_SIZE / 2);
@@ -87,6 +87,9 @@ class Game {
   }
 
 
+  boolean hasGameEnded() {
+    return gameEnded;
+  }
 
   void addReplay() {
     replays.add(new Replay(snake.getXList().copy(), snake.getYList().copy(), appleX, appleY));
@@ -166,6 +169,14 @@ class Game {
     //circle(r.getAppleX(), r.getAppleY(), FIELD_SIZE / 2);
     //r.drawSnake();
     //drawReplaySnake(r);
+  }
+  
+  String getGameState() {
+    return gameState;
+  }
+  
+  void setGameState(String gameState) {
+    this.gameState = gameState;
   }
 
   Snake getSnake() {

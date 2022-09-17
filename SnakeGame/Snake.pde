@@ -36,8 +36,31 @@ class Snake {
   }
   
   // Metoden vil indeholde alt om at opdatere X og Y coords
-  void update() {
-    
+  void updateSelf() {
+    switch (getDirection()){
+      case "RIGHT":
+        getXList().set(0, getXList().get(0) + 40); // 40 == FIELD_SIZE, FJERNE HARDCODED
+        break;
+      case "LEFT":
+        getXList().set(0, getXList().get(0) - 40); // 40 == FIELD_SIZE, FJERNE HARDCODED
+        break;
+      case "UP":
+        getYList().set(0, getYList().get(0) - 40); // 40 == FIELD_SIZE, FJERNE HARDCODED
+        break;
+      case "DOWN":
+        getYList().set(0, getYList().get(0) + 40); // 40 == FIELD_SIZE, FJERNE HARDCODED
+        break;
+      default:
+        break;
+    }
+  }
+  
+  
+  void update() {    
+    for (int i = getXList().size() - 1; i > 0; i--){
+      getXList().set(i, getXList().get(i - 1));
+      getYList().set(i, getYList().get(i - 1));
+    }
   }
 
 
@@ -45,7 +68,7 @@ class Snake {
   void drawSnake(){
     fill(0, 180, 0);
     for (int i = 0; i < xList.size(); i++){
-      circle(xList.get(i), yList.get(i), FIELD_SIZE);
+      circle(xList.get(i), yList.get(i), 40); // 40 == FIELD_SIZE, FJERNE HARDCODED
     }
     drawSnakeHead(xList.get(0), yList.get(0));
   }

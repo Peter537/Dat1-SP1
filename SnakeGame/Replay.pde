@@ -36,13 +36,15 @@ class Replay {
   
   void drawApple() {
     fill(210, 0, 0);
-    circle(getAppleX(), getAppleY(), FIELD_SIZE / 2);
+    //circle(getAppleX(), getAppleY(), FIELD_SIZE / 2);
+    circle(getAppleX(), getAppleY(), 40 / 2); // FJERNE HARDCODED
   }
   
   void drawSnake() {
     fill(0, 180, 0);
     for (int i = 0; i < getXList().size(); i++){
-      circle(getXList().get(i), getYList().get(i), FIELD_SIZE);
+      //circle(getXList().get(i), getYList().get(i), FIELD_SIZE);
+      circle(getXList().get(i), getYList().get(i), 40); // FJERNE HARDCODED...
     }
     drawSnakeHead(getXList().get(0), getYList().get(0));
   }

@@ -12,7 +12,9 @@
 // String[] direction? hvor [0] = currentDirection & [1] = newDirection
 //String direction = "RIGHT";
 //String newDirection = "RIGHT";
+
 int frames = 0;
+/*
 int score = 0;
 IntList snakeXList = new IntList();
 IntList snakeYList = new IntList();
@@ -30,6 +32,11 @@ int currentReplayIndex = 0;
 String gameState = "Menu";
 
 Snake snake;
+*/
+
+
+Game game;
+
 
 void setup(){
   //replays = new ArrayList<Replay>();
@@ -37,12 +44,14 @@ void setup(){
   //FIELD_SIZE = 40;
   //gameState = "Menu";
   size(600, 640); // Skal forblive
-  background(210);
-  setupGame(gameState);
+  //background(210);
+  game = new Game();
+  //setupGame(gameState);
   frameRate(120);  // Skal forblive
-  snake = new Snake();
+  //snake = new Snake();
 }
 
+/*
 void setupGame(String state){
   switch (state){
     case "Menu":
@@ -67,11 +76,9 @@ void setupGame(String state){
       fill(180, 0, 0);
       textSize(30);
       text("You died... Score: " + score, 100, 70);
-      /*
       // Bruge Game objekt til at lave nye Games
       fill(0, 0, 180);
       rect(100, 100, width - 200, height - 300);
-      */
       // REPLAY SYSTEM
       fill(0, 0, 180);
       rect(100, 100, width - 200, height - 300);
@@ -83,12 +90,13 @@ void setupGame(String state){
       break;
   }
 }
+*/
 
 
-/*
+
 // Når Game klassen skal i brug
 void draw() {
-  if (!game.getGameState().equals("Game")) return
+  if (!game.getGameState().equals("Game")) return;
   if (game.hasGameEnded()) {
     game.setGameState("End");
     game.setupGame(game.getGameState());
@@ -103,18 +111,19 @@ void draw() {
     }
     
     if (game.hasHitBorder() || game.hasHitSnake()) {
-      gameEnded = true;
+      game.gameEnded = true;
     }
     
+    game.getSnake().updateSelf();
     game.drawMap();
     game.getSnake().update();
 
     game.addReplay();
   }
 }
-*/
 
 
+/*
 void draw() {  
   if (gameState == "Menu" || gameState == "End" || gameState == "Replay") return;
   if (gameEnded) {
@@ -151,20 +160,7 @@ void draw() {
 
     if (snake.getXList().get(0) < 0 || snake.getXList().get(0) > (FIELDS * FIELD_SIZE) || snake.getYList().get(0) < 0 || snake.getYList().get(0) > (FIELDS * FIELD_SIZE)) {
       gameEnded = true;
-    } /*else {
-      println("New Run");
-      for (int x = 2; x < snakeXList.size() - 1; x++) {
-        for (int y = 2; y < snakeXList.size() - 1; y++) {
-          println("x:" + x + ": " + snakeXList.get(x) + " = " + snakeXList.get(0));
-          println("y:" + y + ": " + snakeYList.get(y) + " = " + snakeYList.get(0));
-          if (snakeXList.get(0) == snakeXList.get(x) && snakeYList.get(0) == snakeYList.get(y)) {
-            println("true");
-            //gameEnded = true;
-            //return;
-          }
-        }
-      }
-    }*/
+    } /
 
     replays.add(new Replay(snake.getXList().copy(), snake.getYList().copy(), appleX, appleY));
 
@@ -188,7 +184,9 @@ void draw() {
     text("Score: " + score, width / 2 - FIELD_SIZE, FIELDS * FIELD_SIZE + FIELD_SIZE * 0.75);
   }
 }
+*/
 
+/*
 boolean hasEatenApple(){
   return (appleX == snake.getXList().get(0) && appleY == snake.getYList().get(0));
 }
@@ -210,6 +208,7 @@ void createLayer(){
   fill(255);
   rect(0, height - FIELD_SIZE, width, height);
 }
+*/
 
 void keyPressed(){
   //println(keyCode);
@@ -217,23 +216,23 @@ void keyPressed(){
     // evt. lave noget med hvor man kan bruge direction = keyCode / key or something
     // så det er kortere
     case 38: //UP:
-      if (snake.getDirection() != "DOWN") {
-        snake.setNewDirection("UP");
+      if (game.getSnake().getDirection() != "DOWN") {
+        game.getSnake().setNewDirection("UP");
       }
       break;
     case 40: //DOWN:
-      if (snake.getDirection() != "UP") {
-        snake.setNewDirection("DOWN");
+      if (game.getSnake().getDirection() != "UP") {
+        game.getSnake().setNewDirection("DOWN");
       }
       break;
     case 39: //RIGHT:
-      if (snake.getDirection() != "LEFT") {
-        snake.setNewDirection("RIGHT");
+      if (game.getSnake().getDirection() != "LEFT") {
+        game.getSnake().setNewDirection("RIGHT");
       }
       break;
     case 37: //LEFT:
-      if (snake.getDirection() != "RIGHT") {
-        snake.setNewDirection("LEFT");
+      if (game.getSnake().getDirection() != "RIGHT") {
+        game.getSnake().setNewDirection("LEFT");
       }
       break;
     default:
@@ -241,6 +240,7 @@ void keyPressed(){
   }
 }
 
+/*
 void showReplay(int index) {
   //println("Current Replay:" + index);
   background(210);
@@ -256,8 +256,47 @@ void showReplay(int index) {
   //r.drawSnake();
   //drawReplaySnake(r);
 }
+*/
 
 void mousePressed(){
+  if (game.getGameState().equals("Menu")) {
+    if (isInsideRect(100, 100, width - 200, height - 300, mouseX, mouseY)) {
+      game.setGameState("Game");
+      game.setupGame(game.getGameState());
+    }
+  } else if (game.getGameState().equals("End")) {
+    if (isInsideRect(100, 100, width - 200, height - 300, mouseX, mouseY)) {
+      game.gameEnded = false; // ændre det her til metode
+      game.setGameState("Replay");
+      game.setupGame(game.getGameState());
+    }
+  } else if (game.getGameState().equals("Replay")) {
+    //println("index: " + currentReplayIndex);
+    if (isInsideRect(20, game.FIELDS * game.FIELD_SIZE + 3, 60, 34, mouseX, mouseY)) {
+      // Backwards
+      //println("back");
+      if (0 > (game.currentReplayIndex - 1)){
+        //println("not set");
+        return;
+      }
+      game.currentReplayIndex--;
+      game.showReplay(game.currentReplayIndex);
+
+    } else if (isInsideRect(20 + 80, game.FIELDS * game.FIELD_SIZE + 3, 60, 34, mouseX, mouseY)) {
+      // Forward
+      //println("forward");
+      //println("size: " + replays.size());
+      if (game.getReplays().size() <= (game.currentReplayIndex + 1)){
+        //println("not set");
+        return;
+      }
+      game.currentReplayIndex++;
+      game.showReplay(game.currentReplayIndex);
+    }
+  }
+  
+  
+  /*
   if (gameState == "Menu"){
     if (isInsideRect(100, 100, width - 200, height - 300, mouseX, mouseY)) {
       gameState = "Game";
@@ -293,7 +332,9 @@ void mousePressed(){
       showReplay(currentReplayIndex);
     }
   }
+  */
 }
+
 
 boolean isInsideRect(float rcx, float rcy, float w, float h, float px, float py){
   return isInRange(rcx, rcx + w, px) && isInRange(rcy, rcy + h, py);
@@ -302,6 +343,7 @@ boolean isInsideRect(float rcx, float rcy, float w, float h, float px, float py)
 boolean isInRange(float begin, float end, float value){
   return (begin <= value && value <= end);
 }
+
 
 /*
 void drawReplaySnake(Replay r) {

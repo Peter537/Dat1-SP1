@@ -1,6 +1,5 @@
 class Game {
 
-  int frames = 0;
   int score = 0;
   //IntList snakeXList = new IntList();
   //IntList snakeYList = new IntList();

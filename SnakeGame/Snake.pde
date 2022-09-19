@@ -1,10 +1,13 @@
 class Snake {
   private IntList xList, yList;
 
+  /*
   private String direction = "RIGHT";
   private String newDirection = "RIGHT";
+  */
 
-  private Direction dir; // Gjort klar til ENUM
+  private Direction direction = Direction.RIGHT;
+  private Direction newDirection = Direction.RIGHT;
 
   public Snake() {
     xList = new IntList();
@@ -19,6 +22,7 @@ class Snake {
     return yList;
   }
   
+  /*
   String getDirection() {
     return direction;
   }
@@ -26,7 +30,17 @@ class Snake {
   String getNewDirection() {
     return newDirection;
   }
+  */
+  
+  Direction getDirection() {
+    return direction;
+  }
 
+  Direction getNewDirection() {
+    return newDirection;
+  }
+
+  /*
   void setNewDirection(String newDirection) {
     this.newDirection = newDirection;
   }
@@ -34,20 +48,29 @@ class Snake {
   void setDirection(String direction) {
     this.direction = direction;
   }
+  */
+  
+  void setNewDirection(Direction newDirection) {
+    this.newDirection = newDirection;
+  }
+
+  void setDirection(Direction direction) {
+    this.direction = direction;
+  }
   
   // Metoden vil indeholde alt om at opdatere X og Y coords
   void updateSelf() {
     switch (getDirection()){
-      case "RIGHT":
+      case RIGHT:
         getXList().set(0, getXList().get(0) + 40); // 40 == FIELD_SIZE, FJERNE HARDCODED
         break;
-      case "LEFT":
+      case LEFT:
         getXList().set(0, getXList().get(0) - 40); // 40 == FIELD_SIZE, FJERNE HARDCODED
         break;
-      case "UP":
+      case UP:
         getYList().set(0, getYList().get(0) - 40); // 40 == FIELD_SIZE, FJERNE HARDCODED
         break;
-      case "DOWN":
+      case DOWN:
         getYList().set(0, getYList().get(0) + 40); // 40 == FIELD_SIZE, FJERNE HARDCODED
         break;
       default:

@@ -10,7 +10,6 @@
 //  - I replay kan man gå så langt som man vil, stopper ikke når snaken var død (skal lige debugges) - Den går 1 længere
 //  - Man kan gå ind i Snaken og dør ikke
 
-
 int frames = 0;
 
 ArrayList<Game> previousGames = new ArrayList<Game>();
@@ -21,7 +20,6 @@ void setup(){
   game = new Game();
   frameRate(120);
 }
-
 
 void draw() {
   if (!game.getGameState().equals("Game")) return;
@@ -49,12 +47,36 @@ void draw() {
   }
 }
 
-
 void keyPressed(){
   //println(keyCode);
   switch (keyCode){
     // evt. lave noget med hvor man kan bruge direction = keyCode / key or something
     // så det er kortere
+    case 38: //UP:
+      if (game.getSnake().getDirection() != Direction.DOWN) {
+        game.getSnake().setNewDirection(Direction.UP);
+      }
+      break;
+    case 40: //DOWN:
+      if (game.getSnake().getDirection() != Direction.UP) {
+        game.getSnake().setNewDirection(Direction.DOWN);
+      }
+      break;
+    case 39: //RIGHT:
+      if (game.getSnake().getDirection() != Direction.LEFT) {
+        game.getSnake().setNewDirection(Direction.RIGHT);
+      }
+      break;
+    case 37: //LEFT:
+      if (game.getSnake().getDirection() != Direction.RIGHT) {
+        game.getSnake().setNewDirection(Direction.LEFT);
+      }
+      break;
+    default:
+      break;
+
+    
+    /*
     case 38: //UP:
       if (game.getSnake().getDirection() != "DOWN") {
         game.getSnake().setNewDirection("UP");
@@ -77,6 +99,7 @@ void keyPressed(){
       break;
     default:
       break;
+    */
   }
 }
 

@@ -15,6 +15,7 @@ class Game {
   int currentReplayIndex = 0;
   
   String gameState = "Menu";
+  GameState gameStateNew = GameState.MENU;
   
   Snake snake;
   

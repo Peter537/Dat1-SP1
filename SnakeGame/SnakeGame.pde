@@ -1,15 +1,13 @@
 // TODO:
-//  - Game klasse som har det hele i sig, så man kan have flere games i stedet
-//    for at skulle restart hvor den stadig gemmer replay etc.
 //  - I replay system, tilføje så man kan gøre så det automatisk kører frem/tilbage ved X frames
 //  - Idk om jeg laver Direction ENUM eller om jeg bruger 'key' i mousePressed, har gjort klar til ENUM'et
 //    eller bruge HashMap<int(key), String> som parser en key til RIGHT, LEFT, UP el. DOWN
-//  - Gjort klar til at kunne bruge Game objectet til at lave flere games
 //  - GameState ENUM? GameState.MENU, GAME, END, REPLAY? har lavet den i hvert fald
+//  - Lave et restart system
 
 // KENDTE FEJL
-//  - I replay er den 1 mindre end den skal være
-//  - I replay kan man gå så langt som man vil, stopper ikke når snaken var død (skal lige debugges)
+//  - I replay kan man gå så langt som man vil, stopper ikke når snaken var død (skal lige debugges) - Den går 1 længere
+//  - Man kan gå ind i Snaken og dør ikke
 
 
 // String[] direction? hvor [0] = currentDirection & [1] = newDirection
@@ -119,9 +117,8 @@ void draw() {
     
     game.getSnake().updateSelf();
     game.drawMap();
-    game.getSnake().update();
-
     game.addReplay();
+    game.getSnake().update();
   }
 }
 
@@ -275,12 +272,12 @@ void mousePressed(){
       previousGames.add(game);
     }
   } else if (game.getGameState().equals("Replay")) {
-    //println("index: " + currentReplayIndex);
+    println("index: " + game.currentReplayIndex);
     if (isInsideRect(20, game.FIELDS * game.FIELD_SIZE + 3, 60, 34, mouseX, mouseY)) {
       // Backwards
-      //println("back");
+      println("back");
       if (0 > (game.currentReplayIndex - 1)){
-        //println("not set");
+        println("not set");
         return;
       }
       game.currentReplayIndex--;
@@ -288,10 +285,10 @@ void mousePressed(){
 
     } else if (isInsideRect(20 + 80, game.FIELDS * game.FIELD_SIZE + 3, 60, 34, mouseX, mouseY)) {
       // Forward
-      //println("forward");
-      //println("size: " + replays.size());
+      println("forward");
+      println("size: " + game.getReplays().size());
       if (game.getReplays().size() <= (game.currentReplayIndex + 1)){
-        //println("not set");
+        println("not set");
         return;
       }
       game.currentReplayIndex++;

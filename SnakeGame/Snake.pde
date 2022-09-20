@@ -1,11 +1,6 @@
 class Snake {
   private IntList xList, yList;
 
-  /*
-  private String direction = "RIGHT";
-  private String newDirection = "RIGHT";
-  */
-
   private Direction direction = Direction.RIGHT;
   private Direction newDirection = Direction.RIGHT;
 
@@ -22,16 +17,6 @@ class Snake {
     return yList;
   }
   
-  /*
-  String getDirection() {
-    return direction;
-  }
-
-  String getNewDirection() {
-    return newDirection;
-  }
-  */
-  
   Direction getDirection() {
     return direction;
   }
@@ -40,16 +25,6 @@ class Snake {
     return newDirection;
   }
 
-  /*
-  void setNewDirection(String newDirection) {
-    this.newDirection = newDirection;
-  }
-
-  void setDirection(String direction) {
-    this.direction = direction;
-  }
-  */
-  
   void setNewDirection(Direction newDirection) {
     this.newDirection = newDirection;
   }

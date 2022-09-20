@@ -5,7 +5,7 @@
 //  - GameState ENUM? GameState.MENU, GAME, END, REPLAY? har lavet den i hvert fald
 //  - Lave et restart system
 //  - Multiplayer?
-//  - Apple class
+//  - Bruge Apple class
 
 // KENDTE FEJL
 //  - I replay kan man gå så langt som man vil, stopper ikke når snaken var død (skal lige debugges) - Den går 1 længere

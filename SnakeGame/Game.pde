@@ -1,29 +1,21 @@
 class Game {
 
   int score = 0;
-  //IntList snakeXList = new IntList();
-  //IntList snakeYList = new IntList();
   int appleX = -1, appleY = -1;
   boolean hasEatenApple = true;
   boolean gameEnded = false;
   
-  // fjerne hardcoded størrelse på felterne, og lave en variabel
   int FIELDS = 15;
   int FIELD_SIZE = 40;
   
   ArrayList<Replay> replays = new ArrayList<Replay>();
   int currentReplayIndex = 0;
   
-  //String gameState = "Menu";
   GameState gameState = GameState.MENU;
   
   Snake snake;
   
   public Game() {
-    //replays = new ArrayList<Replay>();
-    //FIELDS = 15;
-    //FIELD_SIZE = 40;
-    //gameState = "Menu";
     background(210);
     setupGame(gameState);
     snake = new Snake();
@@ -85,51 +77,6 @@ class Game {
     }
   }
 
-
-
-
-  /*
-  void setupGame(String state){
-    switch (state){
-      case "Menu":
-        background(210);
-        textSize(30);
-        text("Klik på knappen for at starte spillet", 100, 70);
-        fill(0, 0, 180);
-        rect(100, 100, width - 200, height - 300);
-        break;
-      case "Game":
-        background(210);
-        createLayer();
-        createApple();
-        fill(0, 180, 0);
-        snake.getXList().set(0, FIELD_SIZE / 2);
-        snake.getYList().set(0, FIELD_SIZE / 2);
-        replays.add(new Replay(snake.getXList().copy(), snake.getYList().copy(), appleX, appleY));
-        snake.drawSnake();
-        break;
-      case "End":
-        background(210);
-        fill(180, 0, 0);
-        textSize(30);
-        text("You died... Score: " + score, 100, 70);
-
-        // Bruge Game objekt til at lave nye Games
-        fill(0, 0, 180);
-        rect(100, 100, width - 200, height - 300);
-
-        // REPLAY SYSTEM
-        fill(0, 0, 180);
-        rect(100, 100, width - 200, height - 300);
-        break;
-      case "Replay":
-        showReplay(0);
-        break;
-      default:
-        break;
-    }
-  }
-  */
 
 
   boolean hasGameEnded() {
@@ -204,16 +151,14 @@ class Game {
     //println("Current Replay:" + index);
     background(210);
     createLayer();
+    // Red box to go back
     fill(180, 0, 0);
     rect(20, FIELDS * FIELD_SIZE + 3, 60, 34);
+    // Green box to go forwards
     fill(0, 180, 0);
     rect(20 + 80, FIELDS * FIELD_SIZE + 3, 60, 34);
     Replay r = replays.get(index);
     r.drawMap();
-    //fill(210, 0, 0);
-    //circle(r.getAppleX(), r.getAppleY(), FIELD_SIZE / 2);
-    //r.drawSnake();
-    //drawReplaySnake(r);
   }
   
   GameState getGameState() {
@@ -224,16 +169,6 @@ class Game {
     this.gameState = gameState;
   }
 
-  /*
-  String getGameState() {
-    return gameState;
-  }
-  
-  void setGameState(String gameState) {
-    this.gameState = gameState;
-  }
-  */
-  
   Snake getSnake() {
     return snake;
   }

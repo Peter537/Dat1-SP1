@@ -14,8 +14,8 @@ class Game {
   ArrayList<Replay> replays = new ArrayList<Replay>();
   int currentReplayIndex = 0;
   
-  String gameState = "Menu";
-  GameState gameStateNew = GameState.MENU;
+  //String gameState = "Menu";
+  GameState gameState = GameState.MENU;
   
   Snake snake;
   
@@ -44,7 +44,51 @@ class Game {
   }
 
 
+  void setupGame(GameState state){
+    switch (state){
+      case MENU:
+        background(210);
+        textSize(30);
+        text("Klik på knappen for at starte spillet", 100, 70);
+        fill(0, 0, 180);
+        rect(100, 100, width - 200, height - 300);
+        break;
+      case GAME:
+        background(210);
+        createLayer();
+        createApple();
+        fill(0, 180, 0);
+        snake.getXList().set(0, FIELD_SIZE / 2);
+        snake.getYList().set(0, FIELD_SIZE / 2);
+        replays.add(new Replay(snake.getXList().copy(), snake.getYList().copy(), appleX, appleY));
+        snake.drawSnake();
+        break;
+      case END:
+        background(210);
+        fill(180, 0, 0);
+        textSize(30);
+        text("You died... Score: " + score, 100, 70);
+        /*
+        // Bruge Game objekt til at lave nye Games
+        fill(0, 0, 180);
+        rect(100, 100, width - 200, height - 300);
+        */
+        // REPLAY SYSTEM
+        fill(0, 0, 180);
+        rect(100, 100, width - 200, height - 300);
+        break;
+      case REPLAY:
+        showReplay(0);
+        break;
+      default:
+        break;
+    }
+  }
 
+
+
+
+  /*
   void setupGame(String state){
     switch (state){
       case "Menu":
@@ -69,11 +113,11 @@ class Game {
         fill(180, 0, 0);
         textSize(30);
         text("You died... Score: " + score, 100, 70);
-        /*
+
         // Bruge Game objekt til at lave nye Games
         fill(0, 0, 180);
         rect(100, 100, width - 200, height - 300);
-        */
+
         // REPLAY SYSTEM
         fill(0, 0, 180);
         rect(100, 100, width - 200, height - 300);
@@ -85,6 +129,7 @@ class Game {
         break;
     }
   }
+  */
 
 
   boolean hasGameEnded() {
@@ -171,6 +216,15 @@ class Game {
     //drawReplaySnake(r);
   }
   
+  GameState getGameState() {
+    return gameState;
+  }
+  
+  void setGameState(GameState gameState) {
+    this.gameState = gameState;
+  }
+
+  /*
   String getGameState() {
     return gameState;
   }
@@ -178,7 +232,8 @@ class Game {
   void setGameState(String gameState) {
     this.gameState = gameState;
   }
-
+  */
+  
   Snake getSnake() {
     return snake;
   }

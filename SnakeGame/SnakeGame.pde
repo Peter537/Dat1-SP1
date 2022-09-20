@@ -22,9 +22,9 @@ void setup(){
 }
 
 void draw() {
-  if (!game.getGameState().equals("Game")) return;
+  if (!game.getGameState().equals(GameState.GAME)) return;
   if (game.hasGameEnded()) {
-    game.setGameState("End");
+    game.setGameState(GameState.END);
     game.setupGame(game.getGameState());
     return;
   }
@@ -105,19 +105,19 @@ void keyPressed(){
 
 
 void mousePressed(){
-  if (game.getGameState().equals("Menu")) {
+  if (game.getGameState().equals(GameState.MENU)) {
     if (isInsideRect(100, 100, width - 200, height - 300, mouseX, mouseY)) {
-      game.setGameState("Game");
+      game.setGameState(GameState.GAME);
       game.setupGame(game.getGameState());
     }
-  } else if (game.getGameState().equals("End")) {
+  } else if (game.getGameState().equals(GameState.END)) {
     if (isInsideRect(100, 100, width - 200, height - 300, mouseX, mouseY)) {
       game.gameEnded = false; // ændre det her til metode
-      game.setGameState("Replay");
+      game.setGameState(GameState.REPLAY);
       game.setupGame(game.getGameState());
       previousGames.add(game);
     }
-  } else if (game.getGameState().equals("Replay")) {
+  } else if (game.getGameState().equals(GameState.REPLAY)) {
     println("index: " + game.currentReplayIndex);
     if (isInsideRect(20, game.FIELDS * game.FIELD_SIZE + 3, 60, 34, mouseX, mouseY)) {
       // Backwards

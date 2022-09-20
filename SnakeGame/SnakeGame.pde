@@ -33,10 +33,8 @@ void draw() {
   if (frames >= frameRate / 5) {
     frames = 0;
     // Evt. gøre det her til en metode i Game klasse?
-    if (game.getSnake().getNewDirection() != game.getSnake().getDirection()) {
-      game.getSnake().setDirection(game.getSnake().getNewDirection());
-    }
-    
+    game.checkAndUpdateDirection();
+
     if (game.hasHitBorder() || game.hasHitSnake()) {
       game.gameEnded = true;
     }
@@ -75,32 +73,6 @@ void keyPressed(){
       break;
     default:
       break;
-
-    
-    /*
-    case 38: //UP:
-      if (game.getSnake().getDirection() != "DOWN") {
-        game.getSnake().setNewDirection("UP");
-      }
-      break;
-    case 40: //DOWN:
-      if (game.getSnake().getDirection() != "UP") {
-        game.getSnake().setNewDirection("DOWN");
-      }
-      break;
-    case 39: //RIGHT:
-      if (game.getSnake().getDirection() != "LEFT") {
-        game.getSnake().setNewDirection("RIGHT");
-      }
-      break;
-    case 37: //LEFT:
-      if (game.getSnake().getDirection() != "RIGHT") {
-        game.getSnake().setNewDirection("LEFT");
-      }
-      break;
-    default:
-      break;
-    */
   }
 }
 

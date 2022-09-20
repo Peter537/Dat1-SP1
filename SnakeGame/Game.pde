@@ -161,6 +161,12 @@ class Game {
     r.drawMap();
   }
   
+  void checkAndUpdateDirection() {
+    if (getSnake().getNewDirection() != getSnake().getDirection()) {
+      getSnake().setDirection(getSnake().getNewDirection());
+    }
+  }
+  
   GameState getGameState() {
     return gameState;
   }
@@ -176,14 +182,4 @@ class Game {
   ArrayList<Replay> getReplays() {
     return replays;
   }
-
-  boolean isInsideRect(float rcx, float rcy, float w, float h, float px, float py){
-    return isInRange(rcx, rcx + w, px) && isInRange(rcy, rcy + h, py);
-  }
-  
-  boolean isInRange(float begin, float end, float value){
-    return (begin <= value && value <= end);
-  }
-
-  
 }

@@ -1,4 +1,5 @@
 class Snake {
+
   private IntList xList, yList;
 
   private Direction direction = Direction.RIGHT;

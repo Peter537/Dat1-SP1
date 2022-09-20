@@ -1,4 +1,5 @@
 class Replay {
+  
   private IntList xList, yList;
   private int appleX, appleY;
   
@@ -32,7 +33,6 @@ class Replay {
     drawApple();
     drawSnake();
   }
-  
   
   void drawApple() {
     fill(210, 0, 0);

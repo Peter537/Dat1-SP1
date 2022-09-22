@@ -10,11 +10,11 @@ class Snake {
     yList = new IntList();
   }
   
-  IntList getXList(){
+  IntList getXList() {
     return xList;
   }
 
-  IntList getYList(){
+  IntList getYList() {
     return yList;
   }
   
@@ -53,7 +53,7 @@ class Snake {
         break;
     }
   }
-  
+
   
   void update() {    
     for (int i = getXList().size() - 1; i > 0; i--){
@@ -63,8 +63,7 @@ class Snake {
   }
 
 
-  // Methods
-  void drawSnake(){
+  void drawSnake() {
     fill(0, 180, 0);
     for (int i = 0; i < xList.size(); i++){
       circle(xList.get(i), yList.get(i), 40); // 40 == FIELD_SIZE, FJERNE HARDCODED
@@ -72,7 +71,7 @@ class Snake {
     drawSnakeHead(xList.get(0), yList.get(0));
   }
 
-  void drawSnakeHead(int x, int y){
+  void drawSnakeHead(int x, int y) {
     fill(0);
     strokeWeight(5);
     point(x - 5, y - 5);

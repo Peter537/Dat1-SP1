@@ -1,15 +1,26 @@
 class Replay {
   
   private IntList xList, yList;
-  private int appleX, appleY;
+  private Apple apple;
+  private int score;
   
-  public Replay(IntList xList, IntList yList, int appleX, int appleY) {
+  public Replay(IntList xList, IntList yList, Apple apple) {
     this.xList = xList;
     this.yList = yList;
-    this.appleX = appleX;
-    this.appleY = appleY;
+    this.apple = apple;
   }
-  
+
+  public Replay(IntList xList, IntList yList, Apple apple, int score) {
+    this.xList = xList;
+    this.yList = yList;
+    this.apple = apple;
+    this.score = score;
+  }
+
+  Apple getApple() {
+    return apple;
+  }
+
   IntList getXList(){
     return xList;
   }
@@ -18,14 +29,9 @@ class Replay {
     return yList;
   }
   
-  int getAppleX() {
-    return appleX;
+  int getScore() {
+    return score;
   }
-
-  int getAppleY() {
-    return appleY;
-  }
-  
   
   // Methods
   
@@ -37,7 +43,7 @@ class Replay {
   void drawApple() {
     fill(210, 0, 0);
     //circle(getAppleX(), getAppleY(), FIELD_SIZE / 2);
-    circle(getAppleX(), getAppleY(), 40 / 2); // FJERNE HARDCODED
+    circle(getApple().getX(), getApple().getY(), 40 / 2); // FJERNE HARDCODED
   }
   
   void drawSnake() {

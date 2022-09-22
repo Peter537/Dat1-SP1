@@ -1,9 +1,11 @@
 class Game {
 
   int score = 0;
-  int appleX = -1, appleY = -1;
+  //int appleX = -1, appleY = -1;
+  Apple apple;
   boolean hasEatenApple = true;
   boolean gameEnded = false;
+  boolean isAutoReplay = false;
   
   int FIELDS = 15;
   int FIELD_SIZE = 40;
@@ -21,16 +23,13 @@ class Game {
     snake = new Snake();
   }
 
-
-
   void drawMap() {
     background(210);
-    createLayer();
+    createBackground();
     if (hasEatenApple()) {
       createApple();
-    } else {
-      drawApple();
     }
+    drawApple();
     snake.drawSnake();
     drawScore();
   }
@@ -47,12 +46,13 @@ class Game {
         break;
       case GAME:
         background(210);
-        createLayer();
+        createBackground();
         createApple();
         fill(0, 180, 0);
         snake.getXList().set(0, FIELD_SIZE / 2);
         snake.getYList().set(0, FIELD_SIZE / 2);
-        replays.add(new Replay(snake.getXList().copy(), snake.getYList().copy(), appleX, appleY));
+        //replays.add(new Replay(snake.getXList().copy(), snake.getYList().copy(), appleX, appleY));
+        replays.add(new Replay(snake.getXList().copy(), snake.getYList().copy(), apple, score));
         snake.drawSnake();
         break;
       case END:
@@ -70,7 +70,7 @@ class Game {
         rect(100, 100, width - 200, height - 300);
         break;
       case REPLAY:
-        showReplay(0);
+        showReplay("right");
         break;
       default:
         break;
@@ -78,13 +78,93 @@ class Game {
   }
 
 
+  void addReplay() {
+    replays.add(new Replay(snake.getXList().copy(), snake.getYList().copy(), apple, score));
+  }
+  
+  void createApple() {
+    snake.getXList().set(snake.getXList().size(), apple != null ? apple.getX() : -1);
+    snake.getYList().set(snake.getYList().size(), apple != null ? apple.getY() : -1);
+    score += 1;
+
+    // lave noget som tjekker om det er inde i Snaken
+    int appleX = ((int) random(FIELDS)) * FIELD_SIZE + 20;
+    int appleY = ((int) random(FIELDS)) * FIELD_SIZE + 20;
+    apple = new Apple(appleX, appleY);
+  }
+  
+  // ændre til createBackground() og så tilføje nederste linje
+  void createBackground(){
+    noFill();
+    for (int x = 0; x < FIELDS * FIELD_SIZE; x += FIELD_SIZE) {
+      for (int y = 0; y < FIELDS * FIELD_SIZE; y += FIELD_SIZE){
+        rect(x, y, FIELD_SIZE, FIELD_SIZE);
+      }
+    }
+    fill(255);
+    rect(0, height - FIELD_SIZE, width, height);
+  }
+
+  void drawApple(){
+    fill(210, 0, 0);
+    circle(apple.getX(), apple.getY(), FIELD_SIZE / 2);
+  }
+  
+  void drawScore(){
+    fill(127, 0, 127);
+    textSize(30);
+    text("Score: " + score, width / 2 - FIELD_SIZE, FIELDS * FIELD_SIZE + FIELD_SIZE * 0.75);
+  }
+
+  // String s will be 'back' or 'forward'
+  void showReplay(String s) {
+    if (s.equalsIgnoreCase("forward")) {
+      if (getReplays().size() <= (currentReplayIndex + 1)){
+        println("not set");
+        return;
+      }
+      currentReplayIndex++;
+    } else if (s.equalsIgnoreCase("back")) {
+      if (0 > (currentReplayIndex - 1)){
+        println("not set");
+        return;
+      }
+      currentReplayIndex--;
+    }
+
+    // CREATING BACK LAYER..
+    background(210);
+    createBackground();
+    // Red box to go back
+    fill(180, 0, 0);
+    rect(20, FIELDS * FIELD_SIZE + 3, 60, 34);
+    // Green box to go forwards
+    fill(0, 180, 0);
+    rect(20 + 80, FIELDS * FIELD_SIZE + 3, 60, 34);
+    // Automatisk frem
+    fill(0, 0, 180);
+    rect(20 + 160, FIELDS * FIELD_SIZE + 3, 60, 34);
+
+    Replay r = replays.get(currentReplayIndex);
+    r.drawMap();
+
+    fill(127, 0, 127);
+    textSize(30);
+    text("Score: " + r.getScore(), width / 2 - FIELD_SIZE, FIELDS * FIELD_SIZE + FIELD_SIZE * 0.75);
+}
+  
+  void checkAndUpdateDirection() {
+    if (getSnake().getNewDirection() != getSnake().getDirection()) {
+      getSnake().setDirection(getSnake().getNewDirection());
+    }
+  }
+  
+  void setGameState(GameState gameState) {
+    this.gameState = gameState;
+  }
 
   boolean hasGameEnded() {
     return gameEnded;
-  }
-
-  void addReplay() {
-    replays.add(new Replay(snake.getXList().copy(), snake.getYList().copy(), appleX, appleY));
   }
 
   boolean hasHitBorder(){
@@ -111,68 +191,15 @@ class Game {
   }
 
   boolean hasEatenApple(){
-    return (appleX == snake.getXList().get(0) && appleY == snake.getYList().get(0));
+    return (apple.getX() == snake.getXList().get(0) && apple.getY() == snake.getYList().get(0));
   }
   
-  void createApple() {
-    snake.getXList().set(snake.getXList().size(), appleX);
-    snake.getYList().set(snake.getYList().size(), appleY);
-    score += 1;
-
-    // lave noget som tjekker om det er inde i Snaken
-    appleX = ((int) random(FIELDS)) * FIELD_SIZE + 20;
-    appleY = ((int) random(FIELDS)) * FIELD_SIZE + 20;
-  }
-  
-  // ændre til createBackground() og så tilføje nederste linje
-  void createLayer(){
-    noFill();
-    for (int x = 0; x < FIELDS * FIELD_SIZE; x += FIELD_SIZE) {
-      for (int y = 0; y < FIELDS * FIELD_SIZE; y += FIELD_SIZE){
-        rect(x, y, FIELD_SIZE, FIELD_SIZE);
-      }
-    }
-    fill(255);
-    rect(0, height - FIELD_SIZE, width, height);
-  }
-
-  void drawApple(){
-    fill(210, 0, 0);
-    circle(appleX, appleY, FIELD_SIZE / 2);
-  }
-  
-  void drawScore(){
-    fill(127, 0, 127);
-    textSize(30);
-    text("Score: " + score, width / 2 - FIELD_SIZE, FIELDS * FIELD_SIZE + FIELD_SIZE * 0.75);
-  }
-
-  void showReplay(int index) {
-    //println("Current Replay:" + index);
-    background(210);
-    createLayer();
-    // Red box to go back
-    fill(180, 0, 0);
-    rect(20, FIELDS * FIELD_SIZE + 3, 60, 34);
-    // Green box to go forwards
-    fill(0, 180, 0);
-    rect(20 + 80, FIELDS * FIELD_SIZE + 3, 60, 34);
-    Replay r = replays.get(index);
-    r.drawMap();
-  }
-  
-  void checkAndUpdateDirection() {
-    if (getSnake().getNewDirection() != getSnake().getDirection()) {
-      getSnake().setDirection(getSnake().getNewDirection());
-    }
+  boolean isAutoReplay() {
+    return isAutoReplay;
   }
   
   GameState getGameState() {
     return gameState;
-  }
-  
-  void setGameState(GameState gameState) {
-    this.gameState = gameState;
   }
 
   Snake getSnake() {

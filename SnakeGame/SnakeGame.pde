@@ -1,11 +1,7 @@
 // TODO:
-//  - I replay system, tilføje så man kan gøre så det automatisk kører frem/tilbage ved X frames
-//  - Idk om jeg laver Direction ENUM eller om jeg bruger 'key' i mousePressed, har gjort klar til ENUM'et
-//    eller bruge HashMap<int(key), String> som parser en key til RIGHT, LEFT, UP el. DOWN
-//  - GameState ENUM? GameState.MENU, GAME, END, REPLAY? har lavet den i hvert fald
 //  - Lave et restart system
 //  - Multiplayer?
-//  - Bruge Apple class
+//  - Mere tekst på skærmen ex: Replay system, om man er død eller ej
 
 // KENDTE FEJL
 //  - I replay kan man gå så langt som man vil, stopper ikke når snaken var død (skal lige debugges) - Den går 1 længere
@@ -23,13 +19,23 @@ void setup(){
 }
 
 void draw() {
-  if (!game.getGameState().equals(GameState.GAME)) return;
+  if (!game.getGameState().equals(GameState.GAME) && !game.getGameState().equals(GameState.REPLAY)) return;
+  frames++;
+  if (game.getGameState().equals(GameState.REPLAY)) {
+    if (frames >= frameRate / 5) {
+      frames = 0;
+      if (game.isAutoReplay()) {
+        game.showReplay("forward"); // Lave noget om det ska være back / forward
+      }
+    }
+    return;
+  }
+  
   if (game.hasGameEnded()) {
     game.setGameState(GameState.END);
     game.setupGame(game.getGameState());
     return;
   }
-  frames++;
   if (frames >= frameRate / 5) {
     frames = 0;
     // Evt. gøre det her til en metode i Game klasse?
@@ -91,27 +97,15 @@ void mousePressed(){
       previousGames.add(game);
     }
   } else if (game.getGameState().equals(GameState.REPLAY)) {
-    println("index: " + game.currentReplayIndex);
     if (isInsideRect(20, game.FIELDS * game.FIELD_SIZE + 3, 60, 34, mouseX, mouseY)) {
-      // Backwards
-      println("back");
-      if (0 > (game.currentReplayIndex - 1)){
-        println("not set");
-        return;
-      }
-      game.currentReplayIndex--;
-      game.showReplay(game.currentReplayIndex);
-
+      // Rød - Back
+      game.showReplay("back");
     } else if (isInsideRect(20 + 80, game.FIELDS * game.FIELD_SIZE + 3, 60, 34, mouseX, mouseY)) {
-      // Forward
-      println("forward");
-      println("size: " + game.getReplays().size());
-      if (game.getReplays().size() <= (game.currentReplayIndex + 1)){
-        println("not set");
-        return;
-      }
-      game.currentReplayIndex++;
-      game.showReplay(game.currentReplayIndex);
+      // Green - Forward
+      game.showReplay("forward");
+    } else if (isInsideRect(20 + 160, game.FIELDS * game.FIELD_SIZE + 3, 60, 34, mouseX, mouseY)) {
+      // Blå - Fremad Auto
+      game.isAutoReplay = !game.isAutoReplay; // lave til metode
     }
   }
 }

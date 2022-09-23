@@ -1,3 +1,3 @@
 # Dat1-SP1
 
-Snake Game by Peter
+Snake Spil af Peter

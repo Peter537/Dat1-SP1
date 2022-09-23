@@ -38,7 +38,6 @@ void draw() {
   }
   if (frames >= frameRate / 5) {
     frames = 0;
-    // Evt. gøre det her til en metode i Game klasse?
     game.checkAndUpdateDirection();
 
     if (game.hasHitBorder() || game.hasHitSnake()) {

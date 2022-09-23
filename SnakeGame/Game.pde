@@ -1,7 +1,6 @@
 class Game {
 
   int score = 0;
-  //int appleX = -1, appleY = -1;
   Apple apple;
   boolean hasEatenApple = true;
   boolean gameEnded = false;
@@ -51,7 +50,6 @@ class Game {
         fill(0, 180, 0);
         snake.getXList().set(0, FIELD_SIZE / 2);
         snake.getYList().set(0, FIELD_SIZE / 2);
-        //replays.add(new Replay(snake.getXList().copy(), snake.getYList().copy(), appleX, appleY));
         replays.add(new Replay(snake.getXList().copy(), snake.getYList().copy(), apple, score));
         snake.drawSnake();
         break;

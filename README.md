@@ -1,3 +1,3 @@
 # Dat1-SP1
 
-Snake Spil af Peter
+Snake spil af Peter

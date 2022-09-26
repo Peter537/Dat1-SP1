@@ -3,12 +3,6 @@ class Replay {
   private IntList xList, yList;
   private Apple apple;
   private int score;
-  
-  public Replay(IntList xList, IntList yList, Apple apple) {
-    this.xList = xList;
-    this.yList = yList;
-    this.apple = apple;
-  }
 
   public Replay(IntList xList, IntList yList, Apple apple, int score) {
     this.xList = xList;

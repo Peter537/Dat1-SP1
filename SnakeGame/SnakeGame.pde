@@ -1,10 +1,11 @@
 // TODO:
+//  - Kommentarer i koden
 //  - Lave et restart system
 //  - Multiplayer?
 //  - Mere tekst på skærmen ex: Replay system, om man er død eller ej
+//  - I klasserne ligge metoderne på en ordentlig måde som ser godt og organiseret ud
 
 // KENDTE FEJL
-//  - I replay kan man gå så langt som man vil, stopper ikke når snaken var død (skal lige debugges) - Den går 1 længere
 //  - Man kan gå ind i Snaken og dør ikke
 
 int frames = 0;
@@ -41,7 +42,7 @@ void draw() {
     game.checkAndUpdateDirection();
 
     if (game.hasHitBorder() || game.hasHitSnake()) {
-      game.gameEnded = true;
+      game.setEnded(true);
     }
     
     game.getSnake().updateSelf();
@@ -52,26 +53,23 @@ void draw() {
 }
 
 void keyPressed(){
-  //println(keyCode);
   switch (keyCode){
-    // evt. lave noget med hvor man kan bruge direction = keyCode / key or something
-    // så det er kortere
-    case 38: //UP:
+    case 38: // UP
       if (game.getSnake().getDirection() != Direction.DOWN) {
         game.getSnake().setNewDirection(Direction.UP);
       }
       break;
-    case 40: //DOWN:
+    case 40: // DOWN
       if (game.getSnake().getDirection() != Direction.UP) {
         game.getSnake().setNewDirection(Direction.DOWN);
       }
       break;
-    case 39: //RIGHT:
+    case 39: // RIGHT
       if (game.getSnake().getDirection() != Direction.LEFT) {
         game.getSnake().setNewDirection(Direction.RIGHT);
       }
       break;
-    case 37: //LEFT:
+    case 37: // LEFT
       if (game.getSnake().getDirection() != Direction.RIGHT) {
         game.getSnake().setNewDirection(Direction.LEFT);
       }
@@ -90,7 +88,7 @@ void mousePressed(){
     }
   } else if (game.getGameState().equals(GameState.END)) {
     if (isInsideRect(100, 100, width - 200, height - 300, mouseX, mouseY)) {
-      game.gameEnded = false; // ændre det her til metode
+      game.setEnded(false);
       game.setGameState(GameState.REPLAY);
       game.setupGame(game.getGameState());
       previousGames.add(game);
@@ -104,7 +102,7 @@ void mousePressed(){
       game.showReplay("forward");
     } else if (isInsideRect(20 + 160, game.FIELDS * game.FIELD_SIZE + 3, 60, 34, mouseX, mouseY)) {
       // Blå - Fremad Auto
-      game.isAutoReplay = !game.isAutoReplay; // lave til metode
+      game.setAutoReplay(!game.isAutoReplay());
     }
   }
 }

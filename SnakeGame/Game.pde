@@ -1,26 +1,26 @@
 class Game {
 
-  int score = 0;
-  Apple apple;
-  boolean hasEatenApple = true;
-  boolean gameEnded = false;
-  boolean isAutoReplay = false;
+  private boolean gameEnded = false;
+  private boolean isAutoReplay = false;
   
-  int FIELDS = 15;
-  int FIELD_SIZE = 40;
+  private int score = 0;
+  private int FIELDS = 15;
+  private int FIELD_SIZE = 40;
+  private int currentReplayIndex = 0;
   
-  ArrayList<Replay> replays = new ArrayList<Replay>();
-  int currentReplayIndex = 0;
+  private ArrayList<Replay> replays = new ArrayList<Replay>();
   
-  GameState gameState = GameState.MENU;
-  
-  Snake snake;
+  private GameState gameState = GameState.MENU;
+  private Snake snake;
+  private Apple apple;
   
   public Game() {
     background(210);
     setupGame(gameState);
     snake = new Snake();
   }
+  
+
 
   void drawMap() {
     background(210);
@@ -75,10 +75,6 @@ class Game {
     }
   }
 
-
-  void addReplay() {
-    replays.add(new Replay(snake.getXList().copy(), snake.getYList().copy(), apple, score));
-  }
   
   void createApple() {
     snake.getXList().set(snake.getXList().size(), apple != null ? apple.getX() : -1);
@@ -113,43 +109,6 @@ class Game {
     textSize(30);
     text("Score: " + score, width / 2 - FIELD_SIZE, FIELDS * FIELD_SIZE + FIELD_SIZE * 0.75);
   }
-
-  // String s will be 'back' or 'forward'
-  void showReplay(String s) {
-    if (s.equalsIgnoreCase("forward")) {
-      if (getReplays().size() <= (currentReplayIndex + 1)){
-        println("not set");
-        return;
-      }
-      currentReplayIndex++;
-    } else if (s.equalsIgnoreCase("back")) {
-      if (0 > (currentReplayIndex - 1)){
-        println("not set");
-        return;
-      }
-      currentReplayIndex--;
-    }
-
-    // CREATING BACK LAYER..
-    background(210);
-    createBackground();
-    // Red box to go back
-    fill(180, 0, 0);
-    rect(20, FIELDS * FIELD_SIZE + 3, 60, 34);
-    // Green box to go forwards
-    fill(0, 180, 0);
-    rect(20 + 80, FIELDS * FIELD_SIZE + 3, 60, 34);
-    // Automatisk frem
-    fill(0, 0, 180);
-    rect(20 + 160, FIELDS * FIELD_SIZE + 3, 60, 34);
-
-    Replay r = replays.get(currentReplayIndex);
-    r.drawMap();
-
-    fill(127, 0, 127);
-    textSize(30);
-    text("Score: " + r.getScore(), width / 2 - FIELD_SIZE, FIELDS * FIELD_SIZE + FIELD_SIZE * 0.75);
-}
   
   void checkAndUpdateDirection() {
     if (getSnake().getNewDirection() != getSnake().getDirection()) {
@@ -159,6 +118,14 @@ class Game {
   
   void setGameState(GameState gameState) {
     this.gameState = gameState;
+  }
+  
+  void setEnded(boolean b) {
+    this.gameEnded = b;
+  }
+  
+  void setAutoReplay(boolean b) {
+    this.isAutoReplay = b;
   }
 
   boolean hasGameEnded() {
@@ -202,6 +169,55 @@ class Game {
 
   Snake getSnake() {
     return snake;
+  }
+  
+  
+  
+  // --------------
+  // REPLAY SYSTEM
+  //
+
+  void addReplay() {
+    replays.add(new Replay(snake.getXList().copy(), snake.getYList().copy(), apple, score));
+  }
+  
+  // String s will be 'back' or 'forward'
+  void showReplay(String s) {
+    if (s.equalsIgnoreCase("forward")) {
+      if (getReplays().size() <= (currentReplayIndex + 2)){
+        isAutoReplay = false;
+        println("not set");
+        return;
+      }
+      currentReplayIndex++;
+    } else if (s.equalsIgnoreCase("back")) {
+      if (0 > (currentReplayIndex - 1)){
+        isAutoReplay = false;
+        println("not set");
+        return;
+      }
+      currentReplayIndex--;
+    }
+
+    // CREATING BACK LAYER..
+    background(210);
+    createBackground();
+    // Red box to go back
+    fill(180, 0, 0);
+    rect(20, FIELDS * FIELD_SIZE + 3, 60, 34);
+    // Green box to go forwards
+    fill(0, 180, 0);
+    rect(20 + 80, FIELDS * FIELD_SIZE + 3, 60, 34);
+    // Automatisk frem
+    fill(0, 0, 180);
+    rect(20 + 160, FIELDS * FIELD_SIZE + 3, 60, 34);
+
+    Replay r = replays.get(currentReplayIndex);
+    r.drawMap();
+
+    fill(127, 0, 127);
+    textSize(30);
+    text("Score: " + r.getScore(), width / 2 - FIELD_SIZE, FIELDS * FIELD_SIZE + FIELD_SIZE * 0.75);
   }
   
   ArrayList<Replay> getReplays() {

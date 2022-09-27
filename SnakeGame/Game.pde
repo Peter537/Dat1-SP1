@@ -1,5 +1,7 @@
 class Game {
 
+  // Fields
+  
   private boolean gameEnded = false;
   private boolean isAutoReplay = false;
   
@@ -14,26 +16,16 @@ class Game {
   private Snake snake;
   private Apple apple;
   
+  // Constructors
+  
   public Game() {
     background(210);
     setupGame(gameState);
     snake = new Snake();
   }
   
-
-
-  void drawMap() {
-    background(210);
-    createBackground();
-    if (hasEatenApple()) {
-      createApple();
-    }
-    drawApple();
-    snake.drawSnake();
-    drawScore();
-  }
-
-
+  // Methods
+  
   void setupGame(GameState state){
     switch (state){
       case MENU:
@@ -75,7 +67,17 @@ class Game {
     }
   }
 
-  
+  void drawMap() {
+    background(210);
+    createBackground();
+    if (hasEatenApple()) {
+      createApple();
+    }
+    drawApple();
+    snake.drawSnake();
+    drawScore();
+  }
+
   void createApple() {
     snake.getXList().set(snake.getXList().size(), apple != null ? apple.getX() : -1);
     snake.getYList().set(snake.getYList().size(), apple != null ? apple.getY() : -1);
@@ -87,7 +89,6 @@ class Game {
     apple = new Apple(appleX, appleY);
   }
   
-  // ændre til createBackground() og så tilføje nederste linje
   void createBackground(){
     noFill();
     for (int x = 0; x < FIELDS * FIELD_SIZE; x += FIELD_SIZE) {
@@ -116,18 +117,8 @@ class Game {
     }
   }
   
-  void setGameState(GameState gameState) {
-    this.gameState = gameState;
-  }
+  // Getters  
   
-  void setEnded(boolean b) {
-    this.gameEnded = b;
-  }
-  
-  void setAutoReplay(boolean b) {
-    this.isAutoReplay = b;
-  }
-
   boolean hasGameEnded() {
     return gameEnded;
   }
@@ -171,8 +162,20 @@ class Game {
     return snake;
   }
   
+    // Setters
+
+  void setGameState(GameState gameState) {
+    this.gameState = gameState;
+  }
   
+  void setEnded(boolean b) {
+    this.gameEnded = b;
+  }
   
+  void setAutoReplay(boolean b) {
+    this.isAutoReplay = b;
+  }
+
   // --------------
   // REPLAY SYSTEM
   //

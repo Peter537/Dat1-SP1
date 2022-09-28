@@ -4,9 +4,11 @@
 //  - Multiplayer?
 //  - Mere tekst på skærmen ex: Replay system, om man er død eller ej
 //  - I klasserne ligge metoderne på en ordentlig måde som ser godt og organiseret ud
+//  - Bruge Snake i Replay klassen
+//  - Back auto replay
 
 // KENDTE FEJL
-//  - Man kan gå ind i Snaken og dør ikke
+//  - Man kan gå ind i Snaken og dør ikke, nu kan man hvis score < 7
 
 int frames = 0;
 
@@ -37,7 +39,7 @@ void draw() {
     game.setupGame(game.getGameState());
     return;
   }
-  if (frames >= frameRate / 5) {
+  if (frames >= frameRate / 7) {
     frames = 0;
     game.checkAndUpdateDirection();
 
@@ -79,7 +81,6 @@ void keyPressed(){
   }
 }
 
-
 void mousePressed(){
   if (game.getGameState().equals(GameState.MENU)) {
     if (isInsideRect(100, 100, width - 200, height - 300, mouseX, mouseY)) {
@@ -88,7 +89,6 @@ void mousePressed(){
     }
   } else if (game.getGameState().equals(GameState.END)) {
     if (isInsideRect(100, 100, width - 200, height - 300, mouseX, mouseY)) {
-      game.setEnded(false);
       game.setGameState(GameState.REPLAY);
       game.setupGame(game.getGameState());
       previousGames.add(game);

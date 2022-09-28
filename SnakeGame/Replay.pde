@@ -9,7 +9,7 @@ class Replay {
   private Apple apple;
 
   // Constructors
-
+  
   public Replay(IntList xList, IntList yList, Apple apple, int score) {
     this.xList = xList;
     this.yList = yList;

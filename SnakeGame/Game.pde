@@ -13,19 +13,17 @@ class Game {
   private ArrayList<Replay> replays = new ArrayList<Replay>();
   
   private GameState gameState = GameState.MENU;
-  private Snake snake;
+  private Snake snake = new Snake();
   private Apple apple;
   
   // Constructors
   
   public Game() {
-    background(210);
     setupGame(gameState);
-    snake = new Snake();
   }
-  
+
   // Methods
-  
+
   void setupGame(GameState state){
     switch (state){
       case MENU:
@@ -50,11 +48,6 @@ class Game {
         fill(180, 0, 0);
         textSize(30);
         text("You died... Score: " + score, 100, 70);
-        /*
-        // Bruge Game objekt til at lave nye Games
-        fill(0, 0, 180);
-        rect(100, 100, width - 200, height - 300);
-        */
         // REPLAY SYSTEM
         fill(0, 0, 180);
         rect(100, 100, width - 200, height - 300);
@@ -84,9 +77,15 @@ class Game {
     score += 1;
 
     // lave noget som tjekker om det er inde i Snaken
-    int appleX = ((int) random(FIELDS)) * FIELD_SIZE + 20;
-    int appleY = ((int) random(FIELDS)) * FIELD_SIZE + 20;
-    apple = new Apple(appleX, appleY);
+    boolean b = true;
+    while (b) {
+      int appleX = ((int) random(FIELDS)) * FIELD_SIZE + 20;
+      int appleY = ((int) random(FIELDS)) * FIELD_SIZE + 20;
+      if (!snake.getXList().hasValue(appleX) || !snake.getYList().hasValue(appleY)) {
+        apple = new Apple(appleX, appleY);
+        b = false;
+      }
+    }
   }
   
   void createBackground(){
@@ -128,22 +127,14 @@ class Game {
   }
   
   boolean hasHitSnake() {
-    return false;
-    /*
-      // Skal lige have fikset det her
-      println("New Run");
-      for (int x = 2; x < snakeXList.size() - 1; x++) {
-        for (int y = 2; y < snakeXList.size() - 1; y++) {
-          println("x:" + x + ": " + snakeXList.get(x) + " = " + snakeXList.get(0));
-          println("y:" + y + ": " + snakeYList.get(y) + " = " + snakeYList.get(0));
-          if (snakeXList.get(0) == snakeXList.get(x) && snakeYList.get(0) == snakeYList.get(y)) {
-            println("true");
-            //gameEnded = true;
-            //return;
-          }
+    for (int x = 2; x < snake.getXList().size() - 1; x++) {
+      for (int y = 2; y < snake.getXList().size() - 1; y++) {
+        if (snake.getXList().get(0) == snake.getXList().get(y) && snake.getYList().get(0) == snake.getYList().get(y)) {
+          return true;
         }
       }
-    }*/
+    }
+    return false;
   }
 
   boolean hasEatenApple(){
@@ -186,7 +177,7 @@ class Game {
   
   // String s will be 'back' or 'forward'
   void showReplay(String s) {
-    if (s.equalsIgnoreCase("forward")) {
+    if (s.equalsIgnoreCase("forward")) { // +2 fordi +1 ift. den må ikke gå for langt, +1 pga. 0-indexed
       if (getReplays().size() <= (currentReplayIndex + 2)){
         isAutoReplay = false;
         println("not set");

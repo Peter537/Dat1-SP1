@@ -33,13 +33,13 @@ void draw() {
     }
     return;
   }
-  
+
   if (game.hasGameEnded()) {
     game.setGameState(GameState.END);
     game.setupGame(game.getGameState());
     return;
   }
-  if (frames >= frameRate / 7) {
+  if (frames >= frameRate / 8) {
     frames = 0;
     game.checkAndUpdateDirection();
 

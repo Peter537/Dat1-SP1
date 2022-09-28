@@ -76,7 +76,6 @@ class Game {
     snake.getYList().set(snake.getYList().size(), apple != null ? apple.getY() : -1);
     score += 1;
 
-    // lave noget som tjekker om det er inde i Snaken
     boolean b = true;
     while (b) {
       int appleX = ((int) random(FIELDS)) * FIELD_SIZE + 20;

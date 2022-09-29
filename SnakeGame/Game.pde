@@ -5,6 +5,7 @@ class Game {
   private boolean gameEnded = false;
   private boolean isAutoReplay = false;
   
+  private int oldHighscore = 0;
   private int score = 0;
   private int FIELDS = 15;
   private int FIELD_SIZE = 40;
@@ -18,7 +19,8 @@ class Game {
   
   // Constructors
   
-  public Game() {
+  public Game(int highscore) {
+    this.oldHighscore = highscore;
     setupGame(gameState);
   }
 
@@ -29,9 +31,10 @@ class Game {
       case MENU:
         background(210);
         textSize(30);
-        text("Klik på knappen for at starte spillet", 100, 70);
         fill(0, 0, 180);
         rect(100, 100, width - 200, height - 300);
+        fill(255);
+        text("Klik på knappen\nfor at starte spillet", 120, 200);
         break;
       case GAME:
         background(210);
@@ -47,10 +50,17 @@ class Game {
         background(210);
         fill(180, 0, 0);
         textSize(30);
-        text("You died... Score: " + score, 100, 70);
+        text("You died... Score: " + score + "\nOld Highscore: " + oldHighscore, 100, 30);
         // REPLAY SYSTEM
         fill(0, 0, 180);
         rect(100, 100, width - 200, height - 300);
+        fill(255);
+        text("Replay", 150, 170);
+        fill(255, 127, 0);
+        rectMode(CORNER);
+        rect(100, height - 150, width - 200, 100);
+        fill(255);
+        text("New Game", 150, height - 100);
         break;
       case REPLAY:
         showReplay("right");
@@ -152,6 +162,10 @@ class Game {
     return snake;
   }
   
+  int getScore() {
+    return score;
+  }
+  
     // Setters
 
   void setGameState(GameState gameState) {
@@ -204,6 +218,9 @@ class Game {
     // Automatisk frem
     fill(0, 0, 180);
     rect(20 + 160, FIELDS * FIELD_SIZE + 3, 60, 34);
+    // Tilbage
+    fill(255, 127, 0);
+    rect(20 + 480, game.FIELDS * game.FIELD_SIZE + 3, 60, 34);
 
     Replay r = replays.get(currentReplayIndex);
     r.drawMap();

@@ -1,23 +1,22 @@
 // TODO:
 //  - Kommentarer i koden
-//  - Lave et restart system
-//  - Multiplayer?
 //  - Mere tekst på skærmen ex: Replay system, om man er død eller ej
 //  - I klasserne ligge metoderne på en ordentlig måde som ser godt og organiseret ud
-//  - Bruge Snake i Replay klassen
 //  - Back auto replay
+//  - Vise Highscore
 
 // KENDTE FEJL
 //  - Man kan gå ind i Snaken og dør ikke, nu kan man hvis score < 7
 
 int frames = 0;
+int highscore = 0;
 
 ArrayList<Game> previousGames = new ArrayList<Game>();
 Game game;
 
 void setup(){
   size(600, 640);
-  game = new Game();
+  game = new Game(highscore);
   frameRate(120);
 }
 
@@ -35,6 +34,7 @@ void draw() {
   }
 
   if (game.hasGameEnded()) {
+    checkAndSetHighscore(game.getScore());
     game.setGameState(GameState.END);
     game.setupGame(game.getGameState());
     return;
@@ -89,9 +89,13 @@ void mousePressed(){
     }
   } else if (game.getGameState().equals(GameState.END)) {
     if (isInsideRect(100, 100, width - 200, height - 300, mouseX, mouseY)) {
+      // Blå - Replay system
       game.setGameState(GameState.REPLAY);
       game.setupGame(game.getGameState());
       previousGames.add(game);
+    } else if (isInsideRect(100, height - 150, width - 200, 100, mouseX, mouseY)) {
+      // Orange - New game
+      game = new Game(highscore);
     }
   } else if (game.getGameState().equals(GameState.REPLAY)) {
     if (isInsideRect(20, game.FIELDS * game.FIELD_SIZE + 3, 60, 34, mouseX, mouseY)) {
@@ -103,14 +107,32 @@ void mousePressed(){
     } else if (isInsideRect(20 + 160, game.FIELDS * game.FIELD_SIZE + 3, 60, 34, mouseX, mouseY)) {
       // Blå - Fremad Auto
       game.setAutoReplay(!game.isAutoReplay());
+    } else if (isInsideRect(20 + 480, game.FIELDS * game.FIELD_SIZE + 3, 60, 34, mouseX, mouseY)) {
+      // Orange - Back to End screen
+      game.setGameState(GameState.END);
+      game.setupGame(game.getGameState());
     }
   }
 }
 
-boolean isInsideRect(float rcx, float rcy, float w, float h, float px, float py){
+void checkAndSetHighscore(int score) {
+  if (getHighscore() < score) {
+    setHighscore(score);
+  }
+}
+
+void setHighscore(int score) {
+  this.highscore = score;
+}
+
+int getHighscore() {
+  return highscore;
+}
+
+boolean isInsideRect(float rcx, float rcy, float w, float h, float px, float py) {
   return isInRange(rcx, rcx + w, px) && isInRange(rcy, rcy + h, py);
 }
 
-boolean isInRange(float begin, float end, float value){
+boolean isInRange(float begin, float end, float value) {
   return (begin <= value && value <= end);
 }

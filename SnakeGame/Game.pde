@@ -11,7 +11,7 @@ class Game {
   private int FIELD_SIZE = 40;
   private int currentReplayIndex = 0;
   
-  private ArrayList<Replay> replays = new ArrayList<Replay>();
+  private ArrayList<Replay> replays = new ArrayList<>();
   
   private GameState gameState = GameState.MENU;
   private Snake snake = new Snake();
@@ -31,12 +31,14 @@ class Game {
       case MENU:
         background(210);
         textSize(30);
+        // Knap til start spil
         fill(0, 0, 180);
         rect(100, 100, width - 200, height - 300);
         fill(255);
-        text("Klik på knappen\nfor at starte spillet", 120, 200);
+        text("  Klik på knappen\nfor at starte spillet", 175, 260);
         break;
       case GAME:
+        // Make first snake
         background(210);
         createBackground();
         createApple();
@@ -50,17 +52,18 @@ class Game {
         background(210);
         fill(180, 0, 0);
         textSize(30);
-        text("You died... Score: " + score + "\nOld Highscore: " + oldHighscore, 100, 30);
-        // REPLAY SYSTEM
+        text("You died... Score: " + score + "\nOld Highscore: " + oldHighscore, 100, 40);
+        // replay knap
         fill(0, 0, 180);
         rect(100, 100, width - 200, height - 300);
         fill(255);
-        text("Replay", 150, 170);
+        text("Replay", 250, 270);
+        // new game knap
         fill(255, 127, 0);
         rectMode(CORNER);
         rect(100, height - 150, width - 200, 100);
         fill(255);
-        text("New Game", 150, height - 100);
+        text("New Game", 220, height - 90);
         break;
       case REPLAY:
         showReplay("right");
@@ -86,6 +89,7 @@ class Game {
     snake.getYList().set(snake.getYList().size(), apple != null ? apple.getY() : -1);
     score += 1;
 
+    // Check if new Apple is inside Snake, then recreate apple
     boolean b = true;
     while (b) {
       int appleX = ((int) random(FIELDS)) * FIELD_SIZE + 20;
@@ -136,6 +140,7 @@ class Game {
   }
   
   boolean hasHitSnake() {
+    // check if snake hits it self
     for (int x = 2; x < snake.getXList().size() - 1; x++) {
       for (int y = 2; y < snake.getXList().size() - 1; y++) {
         if (snake.getXList().get(0) == snake.getXList().get(y) && snake.getYList().get(0) == snake.getYList().get(y)) {

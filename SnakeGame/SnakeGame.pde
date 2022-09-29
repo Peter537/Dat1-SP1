@@ -1,9 +1,6 @@
 // TODO:
-//  - Kommentarer i koden
-//  - Mere tekst på skærmen ex: Replay system, om man er død eller ej
-//  - I klasserne ligge metoderne på en ordentlig måde som ser godt og organiseret ud
-//  - Back auto replay
-//  - Vise Highscore
+//  - int[][] grid, med 0 = intet, 1 = snake, 2 = apple, (evt. 3 = snakeHead?)
+//    I stedet for at bruge IntList xList, yList - Vil gøre det bedre i guess, også ift. at tjekke når man dør ved at gå ind i sig selv
 
 // KENDTE FEJL
 //  - Man kan gå ind i Snaken og dør ikke, nu kan man hvis score < 7
@@ -24,6 +21,7 @@ void draw() {
   if (!game.getGameState().equals(GameState.GAME) && !game.getGameState().equals(GameState.REPLAY)) return;
   frames++;
   if (game.getGameState().equals(GameState.REPLAY)) {
+    // Check and do Auto replay
     if (frames >= frameRate / 5) {
       frames = 0;
       if (game.isAutoReplay()) {
@@ -54,6 +52,7 @@ void draw() {
   }
 }
 
+// Key Pressed event to get new direction
 void keyPressed(){
   switch (keyCode){
     case 38: // UP
@@ -81,6 +80,7 @@ void keyPressed(){
   }
 }
 
+// Mouse pressed event to check if it's inside a square
 void mousePressed(){
   if (game.getGameState().equals(GameState.MENU)) {
     if (isInsideRect(100, 100, width - 200, height - 300, mouseX, mouseY)) {

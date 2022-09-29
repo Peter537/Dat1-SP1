@@ -212,15 +212,25 @@ class Game {
     // Red box to go back
     fill(180, 0, 0);
     rect(20, FIELDS * FIELD_SIZE + 3, 60, 34);
+    textSize(15);
+    fill(255);
+    text("Back", 20 + 5, FIELDS * FIELD_SIZE + 24);
     // Green box to go forwards
     fill(0, 180, 0);
     rect(20 + 80, FIELDS * FIELD_SIZE + 3, 60, 34);
+    fill(255);
+    text("Forward", 20 + 80 + 5, FIELDS * FIELD_SIZE + 24);
     // Automatisk frem
     fill(0, 0, 180);
     rect(20 + 160, FIELDS * FIELD_SIZE + 3, 60, 34);
+    fill(255);
+    text("Auto", 20 + 160 + 5, FIELDS * FIELD_SIZE + 24);
     // Tilbage
     fill(255, 127, 0);
-    rect(20 + 480, game.FIELDS * game.FIELD_SIZE + 3, 60, 34);
+    rect(20 + 460, game.FIELDS * game.FIELD_SIZE + 3, 100, 34);
+    fill(255);
+    text("Back to Menu", 20 + 460 + 5, FIELDS * FIELD_SIZE + 24);
+    textSize(30);
 
     Replay r = replays.get(currentReplayIndex);
     r.drawMap();
